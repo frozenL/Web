@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+//Google firebase
+var firebase = require('firebase');
+console.log(firebase);
+// Initialize Firebase
+var config = {
+        apiKey: "AIzaSyD83l1n3wqcamFBIKdo5TOI18BWlANHt6g",
+        authDomain: "coffeeee-94a0a.firebaseapp.com",
+        databaseURL: "https://coffeeee-94a0a.firebaseio.com",
+        storageBucket: "coffeeee-94a0a.appspot.com",
+};
+
+firebase.initializeApp(config);
+//Google firebase end
+
+module.exports = firebase

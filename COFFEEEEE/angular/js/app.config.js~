@@ -1,0 +1,20 @@
+angular.
+module("COFFEEEEE").
+config(['$locationProvider', '$routeProvider',
+		function config($locationProvider, $routeProvider){
+			$locationProvider.hashPrefix('!');
+			$routeProvider.
+	when('/', {
+		templateUrl: '/modules/status/status.template.html',
+          controller: 'StatusController'
+	}).
+when('/leaderboard', {
+}).
+when('/aboutus', {
+        template: ''
+//		template: 'hi, this is aboutus'
+//	template: '<aboutus-screen></aboutus-screen>'
+}).
+otherwise('/');
+		}]);
+
