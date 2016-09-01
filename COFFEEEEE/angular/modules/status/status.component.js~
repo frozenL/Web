@@ -1,6 +1,0 @@
-angular.module('statusScreen').component('status', {
-        templateUrl: 'status.template.html',
-controller: function StatusController(){
-}
-});
-

@@ -1,2 +1,0 @@
-$http.defaults.headers.common['deviceKey'] = "rT0kFk5LqO0oAUmB";
-
