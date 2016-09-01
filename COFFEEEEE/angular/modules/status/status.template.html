@@ -1,0 +1,28 @@
+<div class = "row">
+        <div class = "col-md-7 col-md-offset-1">
+                <img src = "{{imageSrc}}"/>
+                <!--
+                <canvas id="videoCanvas" width="640" height="480">
+                </canvas>
+                <script type="text/javascript" src="/javascripts/jsmpg.js"></script>
+                <script type="text/javascript">
+// Setup the WebSocket connection and start the player
+                var client = new WebSocket( 'ws://example.com:8084/' );
+
+                var canvas = document.getElementById('videoCanvas');
+                var player = new jsmpeg(client, {canvas:canvas});
+                </script>
+                -->
+        </div>
+        <div class = "col-md-3">
+                <div class = "row">
+                        <h4>Light Sensor Data:</h4>
+                        <li ng-repeat = "(name, val) in light_sensor_data">{{name}}: {{val}}</li>
+                </div>
+                <div class = "row">
+                        <h4>COFFEEEEE Level:</h4>
+                        <p>{{coffeeeee_level}}</p>
+                </div>
+        </div>
+</div>
+

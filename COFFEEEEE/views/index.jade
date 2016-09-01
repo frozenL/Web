@@ -1,0 +1,41 @@
+doctype html
+html(ng-app = 'COFFEEEEE')
+  head
+    title= title
+    link(rel = 'shortcut icon', href = 'images/coffeeeee-128.png', type = 'image/x-icon')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel = 'stylesheet' href = '/stylesheets/bootstrap.min.css')
+    //link(rel = 'stylesheet' href = '/stylesheets/general.css')
+  body
+    .navbar.navbar-default
+      .col-xs-3
+        a.navbar-brand(href = '#!/')
+          p COFFEEEEE
+      .col-xs-3
+        a.navbar-brand(href='#!/') Status
+      .col-xs-3
+        a.navbar-brand(href='#!/leaderboard') LeaderBoard
+      .col-xs-3
+        a.navbar-brand(href='#!/aboutus') AboutUs
+    ng-view
+
+    script(src='https://www.gstatic.com/firebasejs/3.3.0/firebase.js')
+    script.
+      var config = {
+      apiKey: "AIzaSyD83l1n3wqcamFBIKdo5TOI18BWlANHt6g",
+      authDomain: "coffeeee-94a0a.firebaseapp.com",
+      databaseURL: "https://coffeeee-94a0a.firebaseio.com",
+      storageBucket: "coffeeee-94a0a.appspot.com",
+      };
+      firebase.initializeApp(config);
+    
+    script(src = '/js/angular.min.js')
+    script(src = '/js/angular-route.min.js')
+    script(src = '/js/app.module.js')
+    script(src = '/js/app.config.js')
+    script(src = '/modules/leaderboard/leaderboard.module.js')
+    script(src = '/modules/leaderboard/leaderboard.component.js')
+    script(src = '/modules/firebase.js')
+    script(src = '/modules/controllers.js')
+    script(src = '/javascripts/mcs.js')
+

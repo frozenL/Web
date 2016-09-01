@@ -1,0 +1,4 @@
+sensor1: 360	512	400
+sensor2: 525	660	600
+sensor3: 340	580	450
+sensor4: 112	

@@ -1,0 +1,8 @@
+hello
+  #div_jug_live.col-md-10.col-md-offset-1
+    img(src = 'images/jug/full.png')
+  .col-md-1
+    #div_temperature.row
+      p hello
+      */
+
