@@ -1,7 +1,7 @@
 var controllers = angular.module('COFFEEEEE.controllers', []);
 //status
 controllers.controller('StatusController', ['$scope', '$http', '$interval', '$timeout', function($scope, $http, $interval, $timeout){
-        var light_sensor_data = {};
+        var light_sensor_data = {}, temperature;
         function get_light_sensor_data(){
                 var light_sensors_data;
                 var url = "https://api.mediatek.com/mcs/v2/devices/DgY1TFpC/datachannels/lights/datapoints";
@@ -13,6 +13,7 @@ controllers.controller('StatusController', ['$scope', '$http', '$interval', '$ti
                                 var light_sensor = "light_sensor_" + i;
                                 light_sensor_data[light_sensor] = light_sensors_data[i - 1];
                         }
+                        temperature = light_sensors_data[3];
                 });
         })
 .error(function(data){
@@ -46,7 +47,8 @@ function get_video_stream(video_stream_id, width, height){
 //get_video_stream('video', 320, 240);
 //$scope.img_src = "images/jug/full.png";
 
-var jugNotSet = '-1', jugLevel0 = '1', jugLevel1 = '15', jugLevel2 = '50', jugLevel3 = '75';
+var jugNotSet = '-1000', jugLevel0 = '1', jugLevel1 = '15', jugLevel2 = '50', jugLevel3 = '75';
+var temperatureThreashold = '20';
 function compute_level(){
         var light_sensor_id = [];
         for(var i = 1; i <= 3; i ++){
@@ -54,18 +56,20 @@ function compute_level(){
                 light_sensor_id[i] = light_sensor_id_i;
         }
         var len_data = Object.keys(light_sensor_data).length;
-        if(len_data < 3)
+        /*
+        if(len_data < 3 || temperature == null || parseFloat(temperature) < parseFloat(temperatureThreashold))
                 return jugNotSet;
+                */
         //have light --> empty
-        if(light_sensor_data["light_sensor_1"] > '320')
-                return jugLevel0;
+        if(parseInt(light_sensor_data["light_sensor_1"]) > parseInt('400'))
+                return jugLevel0;//1
         //10% - 25%: 20%
-        if(light_sensor_data["light_sensor_2"] > '400')
-                return jugLevel1;
+        if(parseInt(light_sensor_data["light_sensor_2"]) > parseInt('320'))
+                return jugLevel1;//15
         //25% - 50%: 40%
-        if(light_sensor_data["light_sensor_3"] > '495')
-                return jugLevel2;
-        return jugLevel3;
+//        if(parseInt(light_sensor_data["light_sensor_3"]) > parseInt('190'))
+//                return jugLevel2;//50
+        return jugLevel3;//75
 }
 
 //retrieve light sensors from sandbox
@@ -75,9 +79,9 @@ setInterval(function(){
         $timeout(function(){
                 $scope.light_sensor_data = light_sensor_data;
                 var level = compute_level();
-                console.log(level);
                 $scope.coffeeeee_level = level;
-                if(level != '-1'){
+                $scope.temperature = temperature;
+                if(level != jugNotSet){
                         send_level();
                         firebase_add_element('/', 'coffeeeee_level', level);
                         if(level == jugLevel0){
@@ -93,37 +97,47 @@ setInterval(function(){
                                 $scope.imageSrc = "/images/jug/level3.png";
                         }
                 }
+                else{
+                  $scope.imageSrc = "/images/jug/jugNotSet.jpg";
+                }
         }, 0);
 }, 300);
 }]);
 
 //leaderboard
 controllers.controller('LeaderboardController', ['$scope', '$timeout', function($scope, $timeout){
+        // render the image in our view
+        function renderImage(file) {
+
+                // generate a new FileReader object
+                var reader = new FileReader();
+
+                // inject an image with the src url
+                reader.onload = function(event) {
+                        the_url = event.target.result;
+                        $('#div-show-img').html("<img src='" + the_url + "' />");
+                }
+
+                // when the file is read it triggers the onload event above.
+                reader.readAsDataURL(file);
+        }
         var users = firebase.database().ref().child('users');
         users.once('value', function(snapshot){
                 var vals = snapshot.val();
                 var users = [];
-                console.log(vals);
                 for(var p in vals){
-                        console.log(p);
-                        console.log(vals[p]);
-                        users.push({"name": p, "score": vals[p]});
+                        var values = vals[p];
+                        //TODO
+                        users.push({"name": p, "score": values.score, "imgSrc": values.picture});
                 }
                 $timeout(function(){
                         $scope.users = users;
-                        console.log($scope.users);
                 });
         });
-        /*
-           users.child('cd').once('value', 
-           function(snapshot){
-           if(snapshot.val() == null){
-           console.log("empty");
-           }
-           else{
-           console.log(snapshot.val());
-           }
-           });
-           */
+        $('#img-upload').change(function(){
+                var file = this.files[0];
+                renderImage(file);
+                firebase_upload_image(file);
+        });
 }]);
 

@@ -9,9 +9,11 @@ config(['$locationProvider', '$routeProvider',
           controller: 'StatusController'
 	}).
 when('/leaderboard', {
+        templateUrl: '/modules/leaderboard/leaderboard.template.html',
+        controller: 'LeaderboardController'
 }).
 when('/aboutus', {
-        template: ''
+        templateUrl: '/modules/aboutus/aboutUs.template.html',
 //		template: 'hi, this is aboutus'
 //	template: '<aboutus-screen></aboutus-screen>'
 }).

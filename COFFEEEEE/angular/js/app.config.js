@@ -13,7 +13,7 @@ when('/leaderboard', {
         controller: 'LeaderboardController'
 }).
 when('/aboutus', {
-        template: ''
+        templateUrl: '/modules/aboutus/aboutUs.template.html'
 //		template: 'hi, this is aboutus'
 //	template: '<aboutus-screen></aboutus-screen>'
 }).
